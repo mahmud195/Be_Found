@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ================== SEO META TAGS ================== -->
+    <!-- CHANGE: Update these meta tags with your company info -->
+    <title>Be Found | Premium Architectural Design</title>
+    <meta name="description"
+        content="Leading architectural design firm in Maadi, Cairo, Egypt specializing in innovative residential and commercial projects. Transform your vision into reality.">
+    <meta name="keywords"
+        content="architecture, design, buildings, construction, engineering, interior design, Maadi, Cairo, Egypt, architectural firm">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Be Found - Award-Winning Architecture">
+    <meta property="og:description" content="Transform your vision into architectural masterpieces with Be Found.">
+    <meta property="og:url" content="https://yoursite.com">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ar_EG">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Be Found - Award-Winning Architecture">
+    <meta name="twitter:description" content="Transform your vision into architectural masterpieces.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yoursite.com">
+
+    <!-- Structured Data for SEO & AI -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ArchitecturalFirm",
+        "name": "Be Found",
+        "description": "Award-winning architectural design firm in Maadi, Cairo, Egypt specializing in innovative residential, commercial, and public projects.",
+        "url": "https://yoursite.com",
+        "logo": "https://yoursite.com/logo.png",
+        "telephone": "+20-2-123-4567",
+        "email": "info@befound.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Architecture Avenue, Maadi",
+            "addressLocality": "Cairo",
+            "addressCountry": "Egypt"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "29.9602",
+            "longitude": "31.2569"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+            "opens": "09:00",
+            "closes": "18:00"
+        },
+        "areaServed": ["Cairo", "Giza", "Egypt", "Middle East"],
+        "serviceType": ["Architectural Design", "Interior Design", "Urban Planning", "Construction Supervision", "3D Visualization"],
+        "sameAs": [
+            "https://facebook.com/befound",
+            "https://instagram.com/befound",
+            "https://linkedin.com/company/befound"
+        ]
+    }
+    </script>
+
+    <!-- ================== FAVICON ================== -->
+    <!-- CHANGE: Replace with your own favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+
+    <!-- ================== FONTS ================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Cairo for Arabic, Poppins for English -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ================== EXTERNAL LIBRARIES ================== -->
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <!-- Three.js 3D Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- ================== CUSTOM CSS ================== -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================== 3D CANVAS BACKGROUND ================== -->
+    <!-- This canvas renders the galaxy/stars animation -->
+    <canvas id="galaxy-canvas"></canvas>
+
+    <!-- ================== LANGUAGE SWITCHER (FLOATING) ================== -->
+    <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">ع</button>
+    </div>
+
+    <!-- ================== NAVIGATION BAR ================== -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <!-- CHANGE: Replace with your company logo/name -->
+            <a href="#home" class="logo">
+                <span class="logo-icon">◢</span>
+                <span class="logo-text">BE<span class="accent">FOUND</span></span>
+            </a>
+
+            <!-- Navigation Menu -->
+            <nav class="nav-menu" id="navMenu">
+                <!-- CHANGE: Update navigation links text -->
+                <a href="#home" class="nav-link active" data-en="Home" data-ar="الرئيسية">Home</a>
+                <a href="#about" class="nav-link" data-en="About" data-ar="من نحن">About</a>
+                <a href="#services" class="nav-link" data-en="Services" data-ar="خدماتنا">Services</a>
+                <a href="#projects" class="nav-link" data-en="Projects" data-ar="مشاريعنا">Projects</a>
+                <a href="#blog" class="nav-link" data-en="Blog" data-ar="المدونة">Blog</a>
+                <a href="#contact" class="nav-link" data-en="Contact" data-ar="تواصل معنا">Contact</a>
+            </nav>
+
+            <!-- CTA Button in Navbar -->\n <a href="#contact" class="btn btn-primary nav-cta" data-en="Get Quote"
+                data-ar="طلب عرض سعر">Get Quote</a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================== HERO SECTION ================== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <!-- CHANGE: Update hero text content -->
+            <p class="hero-subtitle" data-en="Award-Winning Architecture" data-ar="عمارة حائزة على جوائز">Award-Winning
+                Architecture</p>
+            <h1 class="hero-title" data-en="Designing Tomorrow's Landmarks" data-ar="نصمم معالم الغد">Designing
+                Tomorrow's <span class="accent">Landmarks</span></h1>
+            <p class="hero-description"
+                data-en="We transform visionary concepts into iconic architectural masterpieces that define skylines and inspire generations."
+                data-ar="نحول الرؤى المعمارية إلى تحف معمارية أيقونية تحدد أفق المدن وتلهم الأجيال.">We transform
+                visionary concepts into iconic architectural masterpieces that define skylines and inspire generations.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary btn-lg" data-en="View Our Work" data-ar="شاهد أعمالنا">View
+                    Our Work</a>
+                <a href="#contact" class="btn btn-outline btn-lg" data-en="Start Your Project"
+                    data-ar="ابدأ مشروعك">Start Your Project</a>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="250">0</span>+
+                    <span class="stat-label" data-en="Projects Completed" data-ar="مشروع منجز">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="15">0</span>+
+                    <span class="stat-label" data-en="Years Experience" data-ar="سنة خبرة">Years Experience</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="40">0</span>+
+                    <span class="stat-label" data-en="Awards Won" data-ar="جائزة">Awards Won</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span data-en="Scroll to explore" data-ar="مرر للاستكشاف">Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- ================== ABOUT SECTION ================== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-grid">
+                <!-- About Image/Visual -->
+                <div class="about-visual">
+                    <div class="about-image-wrapper">
+                        <!-- CHANGE: Replace with your office/team image -->
+                        <div class="about-image"
+                            style="background: linear-gradient(135deg, var(--primary-dark), var(--accent));"></div>
+                        <div class="about-image-overlay">
+                            <span class="experience-badge">
+                                <span class="exp-number">15+</span>
+                                <span data-en="Years of Excellence" data-ar="سنة من التميز">Years of Excellence</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Content -->
+                <div class="about-content">
+                    <span class="section-tag" data-en="About Us" data-ar="من نحن">About Us</span>
+                    <!-- CHANGE: Update about section title -->
+                    <h2 class="section-title" data-en="Crafting Spaces That Inspire" data-ar="نصنع مساحات تُلهم">
+                        Crafting Spaces That <span class="accent">Inspire</span></h2>
+
+                    <!-- CHANGE: Update about description paragraphs -->
+                    <p class="about-text"
+                        data-en="Founded in 2009, Arch Studio has grown from a small design practice into one of the region's most respected architectural firms. Our multidisciplinary team of architects, engineers, and designers work collaboratively to create buildings that are not only visually striking but also sustainable and functional."
+                        data-ar="تأسس استوديو آرك في عام 2009، ونما من مكتب تصميم صغير إلى واحد من أكثر المكاتب المعمارية احتراماً في المنطقة. فريقنا متعدد التخصصات من المهندسين المعماريين والمهندسين والمصممين يعمل بشكل تعاوني لإنشاء مباني ليست فقط مذهلة بصرياً ولكنها أيضاً مستدامة وعملية.">
+                        Founded in 2009, Arch Studio has grown from a small design practice into one of the region's
+                        most respected architectural firms. Our multidisciplinary team of architects, engineers, and
+                        designers work collaboratively to create buildings that are not only visually striking but also
+                        sustainable and functional.</p>
+
+                    <p class="about-text"
+                        data-en="We believe that great architecture has the power to transform communities and enhance the human experience. Every project we undertake is guided by our commitment to innovation, sustainability, and client satisfaction."
+                        data-ar="نؤمن بأن العمارة العظيمة لديها القدرة على تحويل المجتمعات وتحسين التجربة الإنسانية. كل مشروع نقوم به يسترشد بالتزامنا بالابتكار والاستدامة ورضا العملاء.">
+                        We believe that great architecture has the power to transform communities and enhance the human
+                        experience. Every project we undertake is guided by our commitment to innovation,
+                        sustainability, and client satisfaction.</p>
+
+                    <!-- Features List -->
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <i class="fas fa-medal"></i>
+                            <span data-en="Award-Winning Designs" data-ar="تصاميم حائزة على جوائز">Award-Winning
+                                Designs</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-leaf"></i>
+                            <span data-en="Sustainable Approach" data-ar="نهج مستدام">Sustainable Approach</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <span data-en="Expert Team" data-ar="فريق خبراء">Expert Team</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-clock"></i>
+                            <span data-en="On-Time Delivery" data-ar="تسليم في الموعد">On-Time Delivery</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="btn btn-primary" data-en="Learn More About Us"
+                        data-ar="اعرف المزيد عنا">Learn More About Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== SERVICES SECTION ================== -->
+    <section class="section services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="What We Offer" data-ar="ما نقدمه">What We Offer</span>
+                <!-- CHANGE: Update services section title -->
+                <h2 class="section-title" data-en="Our Expertise & Services" data-ar="خبراتنا وخدماتنا">Our Expertise &
+                    <span class="accent">Services</span>
+                </h2>
+                <p class="section-subtitle"
+                    data-en="Comprehensive architectural solutions tailored to your unique vision and requirements."
+                    data-ar="حلول معمارية شاملة مصممة خصيصاً لرؤيتك ومتطلباتك الفريدة.">Comprehensive architectural
+                    solutions tailored to your unique vision and requirements.</p>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="services-grid">
+                <!-- CHANGE: Update each service card content -->
+
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3 class="service-title" data-en="Architectural Design" data-ar="التصميم المعماري">Architectural
+                        Design</h3>
+                    <p class="service-desc"
+                        data-en="From concept to completion, we create innovative designs for residential, commercial, and mixed-use developments."
+                        data-ar="من الفكرة إلى الإنجاز، نبتكر تصاميم مبتكرة للمشاريع السكنية والتجارية والمختلطة.">From
+                        concept to completion, we create innovative designs for residential, commercial, and mixed-use
+                        developments.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <h3 class="service-title" data-en="Interior Design" data-ar="التصميم الداخلي">Interior Design</h3>
+                    <p class="service-desc"
+                        data-en="Creating harmonious interior spaces that reflect your personality while maximizing functionality and comfort."
+                        data-ar="إنشاء مساحات داخلية متناغمة تعكس شخصيتك مع تحقيق أقصى قدر من الوظائف والراحة.">Creating
+                        harmonious interior spaces that reflect your personality while maximizing functionality and
+                        comfort.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h3 class="service-title" data-en="Urban Planning" data-ar="التخطيط العمراني">Urban Planning</h3>
+                    <p class="service-desc"
+                        data-en="Developing sustainable urban solutions that enhance community living and promote environmental responsibility."
+                        data-ar="تطوير حلول عمرانية مستدامة تعزز الحياة المجتمعية وتدعم المسؤولية البيئية.">Developing
+                        sustainable urban solutions that enhance community living and promote environmental
+                        responsibility.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="service-title" data-en="Construction Supervision" data-ar="الإشراف على البناء">
+                        Construction Supervision</h3>
+                    <p class="service-desc"
+                        data-en="Expert oversight ensuring your project is built to the highest standards of quality and safety."
+                        data-ar="إشراف متخصص يضمن بناء مشروعك وفق أعلى معايير الجودة والسلامة.">Expert oversight
+                        ensuring your project is built to the highest standards of quality and safety.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="service-title" data-en="3D Visualization" data-ar="التصور ثلاثي الأبعاد">3D Visualization
+                    </h3>
+                    <p class="service-desc"
+                        data-en="Photorealistic renderings and virtual tours that bring your project to life before construction begins."
+                        data-ar="عروض واقعية وجولات افتراضية تجعل مشروعك ينبض بالحياة قبل بدء البناء.">Photorealistic
+                        renderings and virtual tours that bring your project to life before construction begins.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="service-title" data-en="Consulting Services" data-ar="الخدمات الاستشارية">Consulting
+                        Services</h3>
+                    <p class="service-desc"
+                        data-en="Professional guidance on feasibility studies, building codes, permits, and project management."
+                        data-ar="إرشاد مهني في دراسات الجدوى وأكواد البناء والتصاريح وإدارة المشاريع.">Professional
+                        guidance on feasibility studies, building codes, permits, and project management.</p>
+                    <a href="#contact" class="service-link" data-en="Learn More" data-ar="اعرف المزيد">Learn More <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== PROJECTS SECTION ================== -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Our Portfolio" data-ar="أعمالنا">Our Portfolio</span>
+                <!-- CHANGE: Update projects section title -->
+                <h2 class="section-title" data-en="Featured Projects" data-ar="مشاريع مميزة">Featured <span
+                        class="accent">Projects</span></h2>
+                <p class="section-subtitle"
+                    data-en="Explore our award-winning architectural projects spanning residential, commercial, and public spaces."
+                    data-ar="استكشف مشاريعنا المعمارية الحائزة على جوائز في المجالات السكنية والتجارية والعامة.">Explore
+                    our award-winning architectural projects spanning residential, commercial, and public spaces.</p>
+            </div>
+
+            <!-- Project Filters -->
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all" data-en="All Projects" data-ar="جميع المشاريع">All
+                    Projects</button>
+                <button class="filter-btn" data-filter="residential" data-en="Residential"
+                    data-ar="سكني">Residential</button>
+                <button class="filter-btn" data-filter="commercial" data-en="Commercial"
+                    data-ar="تجاري">Commercial</button>
+                <button class="filter-btn" data-filter="public" data-en="Public" data-ar="عام">Public</button>
+            </div>
+
+            <!-- Projects Grid with 3D Building Cards -->
+            <div class="projects-grid">
+                <!-- CHANGE: Update each project card content -->
+
+                <!-- Project 1 -->
+                <div class="project-card" data-category="residential">
+                    <div class="project-3d-wrapper">
+                        <!-- 3D Building will be rendered here -->
+                        <canvas class="project-canvas" data-model="tower"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Residential" data-ar="سكني">Residential</span>
+                        <h3 class="project-title" data-en="Sky Tower Residences" data-ar="أبراج سكاي السكنية">Sky Tower
+                            Residences</h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Dubai, UAE"
+                                data-ar="دبي، الإمارات">Dubai, UAE</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-category="commercial">
+                    <div class="project-3d-wrapper">
+                        <canvas class="project-canvas" data-model="office"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Commercial" data-ar="تجاري">Commercial</span>
+                        <h3 class="project-title" data-en="Innovation Business Hub" data-ar="مركز الابتكار التجاري">
+                            Innovation Business Hub</h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Riyadh, KSA"
+                                data-ar="الرياض، السعودية">Riyadh, KSA</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-category="public">
+                    <div class="project-3d-wrapper">
+                        <canvas class="project-canvas" data-model="museum"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Public" data-ar="عام">Public</span>
+                        <h3 class="project-title" data-en="Modern Art Museum" data-ar="متحف الفن الحديث">Modern Art
+                            Museum</h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Cairo, Egypt"
+                                data-ar="القاهرة، مصر">Cairo, Egypt</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card" data-category="residential">
+                    <div class="project-3d-wrapper">
+                        <canvas class="project-canvas" data-model="villa"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Residential" data-ar="سكني">Residential</span>
+                        <h3 class="project-title" data-en="Coastal Luxury Villa" data-ar="فيلا الساحل الفاخرة">Coastal
+                            Luxury Villa</h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Jeddah, KSA"
+                                data-ar="جدة، السعودية">Jeddah, KSA</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card" data-category="commercial">
+                    <div class="project-3d-wrapper">
+                        <canvas class="project-canvas" data-model="mall"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Commercial" data-ar="تجاري">Commercial</span>
+                        <h3 class="project-title" data-en="Grand Plaza Mall" data-ar="جراند بلازا مول">Grand Plaza Mall
+                        </h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Kuwait City"
+                                data-ar="مدينة الكويت">Kuwait City</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card" data-category="public">
+                    <div class="project-3d-wrapper">
+                        <canvas class="project-canvas" data-model="library"></canvas>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category" data-en="Public" data-ar="عام">Public</span>
+                        <h3 class="project-title" data-en="National Library" data-ar="المكتبة الوطنية">National Library
+                        </h3>
+                        <p class="project-location"><i class="fas fa-map-marker-alt"></i> <span data-en="Doha, Qatar"
+                                data-ar="الدوحة، قطر">Doha, Qatar</span></p>
+                        <a href="#" class="btn btn-sm btn-outline" data-en="View Details" data-ar="عرض التفاصيل">View
+                            Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-cta">
+                <a href="#" class="btn btn-primary btn-lg" data-en="View All Projects" data-ar="عرض جميع المشاريع">View
+                    All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== TESTIMONIALS SECTION ================== -->
+    <section class="section testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Testimonials" data-ar="آراء العملاء">Testimonials</span>
+                <h2 class="section-title" data-en="What Our Clients Say" data-ar="ماذا يقول عملاؤنا">What Our Clients
+                    <span class="accent">Say</span>
+                </h2>
+            </div>
+
+            <div class="testimonials-slider">
+                <!-- CHANGE: Update testimonial content -->
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text"
+                            data-en="Arch Studio transformed our vision into reality. Their attention to detail and innovative approach resulted in a building that exceeds all our expectations."
+                            data-ar="حول استوديو آرك رؤيتنا إلى واقع. اهتمامهم بالتفاصيل ونهجهم المبتكر أسفر عن مبنى يتجاوز كل توقعاتنا.">
+                            "Arch Studio transformed our vision into reality. Their attention to detail and innovative
+                            approach resulted in a building that exceeds all our expectations."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AM</div>
+                        <div class="author-info">
+                            <h4 data-en="Ahmed Mohammed" data-ar="أحمد محمد">Ahmed Mohammed</h4>
+                            <p data-en="CEO, Tech Innovations" data-ar="الرئيس التنفيذي، تك إنوفيشنز">CEO, Tech
+                                Innovations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text"
+                            data-en="Working with Arch Studio was a seamless experience. They understood our needs perfectly and delivered a stunning design on time and within budget."
+                            data-ar="كان العمل مع استوديو آرك تجربة سلسة. فهموا احتياجاتنا تماماً وقدموا تصميماً مذهلاً في الوقت المحدد وضمن الميزانية.">
+                            "Working with Arch Studio was a seamless experience. They understood our needs perfectly and
+                            delivered a stunning design on time and within budget."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SF</div>
+                        <div class="author-info">
+                            <h4 data-en="Sara Fahad" data-ar="سارة فهد">Sara Fahad</h4>
+                            <p data-en="Property Developer" data-ar="مطور عقاري">Property Developer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text"
+                            data-en="The team's expertise in sustainable design helped us achieve LEED certification. Their professionalism and creativity are unmatched."
+                            data-ar="ساعدتنا خبرة الفريق في التصميم المستدام على تحقيق شهادة LEED. احترافيتهم وإبداعهم لا مثيل لهما.">
+                            "The team's expertise in sustainable design helped us achieve LEED certification. Their
+                            professionalism and creativity are unmatched."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">KA</div>
+                        <div class="author-info">
+                            <h4 data-en="Khalid Al-Rashid" data-ar="خالد الراشد">Khalid Al-Rashid</h4>
+                            <p data-en="Director, Green Buildings LLC" data-ar="مدير، المباني الخضراء">Director, Green
+                                Buildings LLC</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== BLOG SECTION ================== -->
+    <section class="section blog" id="blog">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Our Blog" data-ar="مدونتنا">Our Blog</span>
+                <h2 class="section-title" data-en="Latest Insights" data-ar="أحدث المقالات">Latest <span
+                        class="accent">Insights</span></h2>
+                <p class="section-subtitle" data-en="Stay updated with the latest trends in architecture and design."
+                    data-ar="ابق على اطلاع بأحدث الاتجاهات في العمارة والتصميم.">Stay updated with the latest trends in
+                    architecture and design.</p>
+            </div>
+
+            <div class="blog-grid">
+                <!-- CHANGE: Update blog post content -->
+
+                <!-- Blog Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(45deg, #667eea, #764ba2);"></div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> <span data-en="Dec 15, 2024"
+                                    data-ar="15 ديسمبر 2024">Dec 15, 2024</span></span>
+                            <span><i class="far fa-folder"></i> <span data-en="Sustainability"
+                                    data-ar="الاستدامة">Sustainability</span></span>
+                        </div>
+                        <h3 class="blog-title" data-en="The Future of Sustainable Architecture"
+                            data-ar="مستقبل العمارة المستدامة">The Future of Sustainable Architecture</h3>
+                        <p class="blog-excerpt"
+                            data-en="Exploring innovative approaches to creating environmentally responsible buildings that minimize carbon footprint..."
+                            data-ar="استكشاف أساليب مبتكرة لإنشاء مبانٍ صديقة للبيئة تقلل من البصمة الكربونية...">
+                            Exploring innovative approaches to creating environmentally responsible buildings that
+                            minimize carbon footprint...</p>
+                        <a href="#" class="blog-link" data-en="Read More" data-ar="اقرأ المزيد">Read More <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(45deg, #f093fb, #f5576c);"></div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> <span data-en="Dec 10, 2024"
+                                    data-ar="10 ديسمبر 2024">Dec 10, 2024</span></span>
+                            <span><i class="far fa-folder"></i> <span data-en="Technology"
+                                    data-ar="التكنولوجيا">Technology</span></span>
+                        </div>
+                        <h3 class="blog-title" data-en="How AI is Revolutionizing Architectural Design"
+                            data-ar="كيف يغير الذكاء الاصطناعي التصميم المعماري">How AI is Revolutionizing Architectural
+                            Design</h3>
+                        <p class="blog-excerpt"
+                            data-en="Discover how artificial intelligence and machine learning are transforming the way architects work..."
+                            data-ar="اكتشف كيف يغير الذكاء الاصطناعي والتعلم الآلي طريقة عمل المهندسين المعماريين...">
+                            Discover how artificial intelligence and machine learning are transforming the way
+                            architects work...</p>
+                        <a href="#" class="blog-link" data-en="Read More" data-ar="اقرأ المزيد">Read More <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> <span data-en="Dec 5, 2024"
+                                    data-ar="5 ديسمبر 2024">Dec 5, 2024</span></span>
+                            <span><i class="far fa-folder"></i> <span data-en="Trends"
+                                    data-ar="الاتجاهات">Trends</span></span>
+                        </div>
+                        <h3 class="blog-title" data-en="Top Architectural Trends for 2025"
+                            data-ar="أهم اتجاهات العمارة لعام 2025">Top Architectural Trends for 2025</h3>
+                        <p class="blog-excerpt"
+                            data-en="From biophilic design to smart homes, here are the trends that will shape architecture in the coming year..."
+                            data-ar="من التصميم البيوفيلي إلى المنازل الذكية، إليك الاتجاهات التي ستشكل العمارة في العام القادم...">
+                            From biophilic design to smart homes, here are the trends that will shape architecture in
+                            the coming year...</p>
+                        <a href="#" class="blog-link" data-en="Read More" data-ar="اقرأ المزيد">Read More <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== CONTACT SECTION ================== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <span class="section-tag" data-en="Get In Touch" data-ar="تواصل معنا">Get In Touch</span>
+                    <h2 class="section-title" data-en="Let's Build Something Amazing" data-ar="لنبني شيئاً مذهلاً معاً">
+                        Let's Build Something <span class="accent">Amazing</span></h2>
+                    <p class="contact-text"
+                        data-en="Ready to start your project? Contact us today for a free consultation and let's bring your architectural vision to life."
+                        data-ar="هل أنت مستعد لبدء مشروعك؟ تواصل معنا اليوم للحصول على استشارة مجانية ودعنا نحول رؤيتك المعمارية إلى واقع.">
+                        Ready to start your project? Contact us today for a free consultation and let's bring your
+                        architectural vision to life.</p>
+
+                    <!-- CHANGE: Update contact information -->
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div>
+                                <h4 data-en="Visit Us" data-ar="زورنا">Visit Us</h4>
+                                <p data-en="123 Architecture Avenue, Maadi, Cairo, Egypt"
+                                    data-ar="123 شارع العمارة، المعادي، القاهرة، مصر">123 Architecture Avenue,
+                                    Maadi, Cairo, Egypt</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div>
+                                <h4 data-en="Call Us" data-ar="اتصل بنا">Call Us</h4>
+                                <p dir="ltr">+20 2 123 4567</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h4 data-en="Email Us" data-ar="راسلنا">Email Us</h4>
+                                <p>info@befound.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                            <div>
+                                <h4 data-en="Working Hours" data-ar="ساعات العمل">Working Hours</h4>
+                                <p data-en="Sun - Thu: 9:00 AM - 6:00 PM" data-ar="الأحد - الخميس: 9:00 ص - 6:00 م">Sun
+                                    - Thu: 9:00 AM - 6:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper" id="quote">
+                    <form class="contact-form" id="contactForm">
+                        <h3 class="form-title" data-en="Request a Quote" data-ar="طلب عرض سعر">Request a Quote</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" data-en="Email Address" data-ar="البريد الإلكتروني">Email
+                                    Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" dir="ltr">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectType" data-en="Project Type" data-ar="نوع المشروع">Project
+                                    Type</label>
+                                <select id="projectType" name="projectType">
+                                    <option value="" data-en="Select Project Type" data-ar="اختر نوع المشروع">Select
+                                        Project Type</option>
+                                    <option value="residential" data-en="Residential" data-ar="سكني">Residential
+                                    </option>
+                                    <option value="commercial" data-en="Commercial" data-ar="تجاري">Commercial</option>
+                                    <option value="interior" data-en="Interior Design" data-ar="تصميم داخلي">Interior
+                                        Design</option>
+                                    <option value="renovation" data-en="Renovation" data-ar="تجديد">Renovation</option>
+                                    <option value="consulting" data-en="Consulting" data-ar="استشارات">Consulting
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="budget" data-en="Estimated Budget" data-ar="الميزانية التقديرية">Estimated
+                                    Budget</label>
+                                <select id="budget" name="budget">
+                                    <option value="" data-en="Select Budget Range" data-ar="اختر نطاق الميزانية">Select
+                                        Budget Range</option>
+                                    <option value="50k-100k">$50,000 - $100,000</option>
+                                    <option value="100k-250k">$100,000 - $250,000</option>
+                                    <option value="250k-500k">$250,000 - $500,000</option>
+                                    <option value="500k-1m">$500,000 - $1,000,000</option>
+                                    <option value="1m+">$1,000,000+</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="area" data-en="Approximate Area (sqm)"
+                                    data-ar="المساحة التقريبية (م²)">Approximate Area (sqm)</label>
+                                <input type="number" id="area" name="area" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" data-en="Project Details" data-ar="تفاصيل المشروع">Project
+                                Details</label>
+                            <textarea id="message" name="message" rows="4"
+                                data-en-placeholder="Tell us about your project..."
+                                data-ar-placeholder="أخبرنا عن مشروعك..."
+                                placeholder="Tell us about your project..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" data-en="Send Request"
+                            data-ar="إرسال الطلب">Send Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== NEWSLETTER SECTION ================== -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3 data-en="Stay Updated" data-ar="ابقَ على اطلاع">Stay Updated</h3>
+                    <p data-en="Subscribe to our newsletter for the latest architectural insights and project updates."
+                        data-ar="اشترك في نشرتنا البريدية للحصول على أحدث الرؤى المعمارية وتحديثات المشاريع.">Subscribe
+                        to our newsletter for the latest architectural insights and project updates.</p>
+                </div>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Enter your email" data-en-placeholder="Enter your email"
+                        data-ar-placeholder="أدخل بريدك الإلكتروني" required>
+                    <button type="submit" class="btn btn-primary" data-en="Subscribe" data-ar="اشترك">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== FOOTER ================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Footer About -->
+                <div class="footer-col">
+                    <a href="#home" class="footer-logo">
+                        <span class="logo-icon">◢</span>
+                        <span class="logo-text">BE<span class="accent">FOUND</span></span>
+                    </a>
+                    <p class="footer-about"
+                        data-en="Award-winning architectural firm dedicated to creating innovative, sustainable, and inspiring spaces that transform communities."
+                        data-ar="مكتب معماري حائز على جوائز مكرس لإنشاء مساحات مبتكرة ومستدامة وملهمة تحول المجتمعات.">
+                        Award-winning architectural firm dedicated to creating innovative, sustainable, and inspiring
+                        spaces that transform communities.</p>
+                </div>
+
+                <!-- Footer Quick Links -->
+                <div class="footer-col">
+                    <h4 data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about" data-en="About Us" data-ar="من نحن">About Us</a></li>
+                        <li><a href="#services" data-en="Our Services" data-ar="خدماتنا">Our Services</a></li>
+                        <li><a href="#projects" data-en="Projects" data-ar="المشاريع">Projects</a></li>
+                        <li><a href="#blog" data-en="Blog" data-ar="المدونة">Blog</a></li>
+                        <li><a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Footer Services -->
+                <div class="footer-col">
+                    <h4 data-en="Services" data-ar="الخدمات">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-en="Architectural Design" data-ar="التصميم المعماري">Architectural
+                                Design</a></li>
+                        <li><a href="#" data-en="Interior Design" data-ar="التصميم الداخلي">Interior Design</a></li>
+                        <li><a href="#" data-en="Urban Planning" data-ar="التخطيط العمراني">Urban Planning</a></li>
+                        <li><a href="#" data-en="3D Visualization" data-ar="التصور ثلاثي الأبعاد">3D Visualization</a>
+                        </li>
+                        <li><a href="#" data-en="Consulting" data-ar="الاستشارات">Consulting</a></li>
+                    </ul>
+                </div>
+
+                <!-- Footer Contact -->
+                <div class="footer-col">
+                    <h4 data-en="Contact Info" data-ar="معلومات الاتصال">Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-en="Maadi, Cairo, Egypt"
+                                data-ar="المعادي، القاهرة، مصر">Maadi, Cairo, Egypt</span></li>
+                        <li><i class="fas fa-phone-alt"></i> <span dir="ltr">+20 2 123 4567</span></li>
+                        <li><i class="fas fa-envelope"></i> info@befound.com</li>
+                    </ul>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p data-en="© 2024 Be Found. All rights reserved." data-ar="© 2024 بي فاوند. جميع الحقوق محفوظة.">
+                    © 2024 Be Found. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#" data-en="Privacy Policy" data-ar="سياسة الخصوصية">Privacy Policy</a>
+                    <a href="#" data-en="Terms of Service" data-ar="شروط الخدمة">Terms of Service</a>
+                    <!-- Admin Panel Link (hidden but accessible) -->
+                    <a href="admin-login.html" class="admin-link" style="opacity: 0.5;" data-en="Admin"
+                        data-ar="لوحة التحكم">Admin</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================== LIVE CHAT WIDGET ================== -->
+    <div class="chat-widget" id="chatWidget">
+        <button class="chat-toggle" id="chatToggle" aria-label="Open Chat">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <h4 data-en="Live Chat" data-ar="الدردشة المباشرة">Live Chat</h4>
+                <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    <p data-en="Hello! How can we help you today?" data-ar="مرحباً! كيف يمكننا مساعدتك اليوم؟">Hello!
+                        How can we help you today?</p>
+                </div>
+            </div>
+            <form class="chat-input" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Type a message..."
+                    data-en-placeholder="Type a message..." data-ar-placeholder="اكتب رسالة...">
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================== BOOKING MODAL ================== -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-overlay" onclick="closeBookingModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+            <h3 data-en="Book a Consultation" data-ar="احجز استشارة">Book a Consultation</h3>
+            <form class="booking-form" id="bookingForm">
+                <div class="form-group">
+                    <label for="bookingName" data-en="Your Name" data-ar="اسمك">Your Name</label>
+                    <input type="text" id="bookingName" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingEmail" data-en="Email" data-ar="البريد الإلكتروني">Email</label>
+                    <input type="email" id="bookingEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingDate" data-en="Preferred Date" data-ar="التاريخ المفضل">Preferred Date</label>
+                    <input type="date" id="bookingDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingTime" data-en="Preferred Time" data-ar="الوقت المفضل">Preferred Time</label>
+                    <select id="bookingTime" required>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:00">03:00 PM</option>
+                        <option value="16:00">04:00 PM</option>
+                        <option value="17:00">05:00 PM</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" data-en="Confirm Booking"
+                    data-ar="تأكيد الحجز">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================== CUSTOM SCRIPTS ================== -->
+    <script src="js/main.js"></script>
+    <script src="js/gsap-animations.js"></script>
+</body>
+
+</html>

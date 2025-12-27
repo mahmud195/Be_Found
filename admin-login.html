@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ================== SEO META TAGS ================== -->
+    <title>Admin Login | Be Found</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- ================== FONTS ================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ================== ICONS ================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- ================== STYLES ================== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="admin-body">
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="login-logo">
+                <span class="logo-icon">◢</span>
+                <span class="logo-text">BE<span class="accent">FOUND</span></span>
+            </div>
+
+            <h1 class="login-title" data-en="Admin Login" data-ar="تسجيل دخول المدير">Admin Login</h1>
+            <p class="login-subtitle" data-en="Enter your credentials to access the dashboard"
+                data-ar="أدخل بياناتك للوصول إلى لوحة التحكم">Enter your credentials to access the dashboard</p>
+
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                        <span data-en="Username" data-ar="اسم المستخدم">Username</span>
+                    </label>
+                    <input type="text" id="username" name="username" required placeholder="Enter username"
+                        data-en-placeholder="Enter username" data-ar-placeholder="أدخل اسم المستخدم">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        <span data-en="Password" data-ar="كلمة المرور">Password</span>
+                    </label>
+                    <div class="password-input">
+                        <input type="password" id="password" name="password" required placeholder="Enter password"
+                            data-en-placeholder="Enter password" data-ar-placeholder="أدخل كلمة المرور">
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <span data-en="Remember me" data-ar="تذكرني">Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link" data-en="Forgot password?" data-ar="نسيت كلمة المرور؟">Forgot
+                        password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    <span data-en="Login" data-ar="تسجيل الدخول">Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="login-error" id="loginError" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span data-en="Invalid username or password" data-ar="اسم المستخدم أو كلمة المرور غير صحيحة">Invalid
+                        username or password</span>
+                </div>
+            </form>
+
+            <!-- Demo Credentials Notice -->
+            <div class="demo-notice">
+                <p data-en="Demo credentials:" data-ar="بيانات تجريبية:">Demo credentials:</p>
+                <code>admin / admin123</code>
+            </div>
+
+            <!-- Back to Site -->
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                <span data-en="Back to website" data-ar="العودة للموقع">Back to website</span>
+            </a>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="login-lang-switcher">
+            <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">EN</button>
+            <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">ع</button>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // LOGIN FUNCTIONALITY
+        // =====================================================
+
+        // CHANGE: Update these credentials for production
+        // In production, use a proper backend authentication system
+        const DEMO_CREDENTIALS = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const errorDiv = document.getElementById('loginError');
+
+            // Validate credentials
+            if (username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password) {
+                // Success - store session
+                const sessionData = {
+                    isLoggedIn: true,
+                    username: username,
+                    loginTime: new Date().toISOString()
+                };
+
+                if (remember) {
+                    localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                } else {
+                    sessionStorage.setItem('adminSession', JSON.stringify(sessionData));
+                }
+
+                // Redirect to dashboard
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                // Show error
+                errorDiv.style.display = 'flex';
+
+                // Shake animation
+                document.querySelector('.login-card').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('.login-card').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // Language Switcher
+        function switchLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+            document.querySelectorAll('[data-en][data-ar]').forEach(element => {
+                const text = element.getAttribute(`data-${lang}`);
+                if (text) element.textContent = text;
+            });
+
+            document.querySelectorAll('[data-en-placeholder][data-ar-placeholder]').forEach(element => {
+                const placeholder = element.getAttribute(`data-${lang}-placeholder`);
+                if (placeholder) element.placeholder = placeholder;
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Check for saved language preference
+        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+        switchLanguage(savedLang);
+
+        // Check if already logged in
+        function checkExistingSession() {
+            const session = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+            if (session) {
+                const sessionData = JSON.parse(session);
+                if (sessionData.isLoggedIn) {
+                    window.location.href = 'admin-dashboard.html';
+                }
+            }
+        }
+        checkExistingSession();
+    </script>
+</body>
+
+</html>
