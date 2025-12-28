@@ -849,12 +849,35 @@ p {
     background: var(--primary-light);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: var(--transition-base);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.4s ease,
+        border-color 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
 }
 
-.project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.project-card:hover::before,
+.project-card:focus-within::before {
+    opacity: 1;
 }
 
 .project-3d-wrapper {
@@ -864,13 +887,63 @@ p {
     overflow: hidden;
 }
 
+/* Animated overlay icon for project cards */
+.project-3d-wrapper::before {
+    content: '◢';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+.project-card:hover .project-3d-wrapper::before,
+.project-card:focus-within .project-3d-wrapper::before {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1) rotate(360deg);
+}
+
+/* Shimmer effect on hover */
+.project-3d-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.project-card:hover .project-3d-wrapper::after,
+.project-card:focus-within .project-3d-wrapper::after {
+    left: 100%;
+}
+
 .project-canvas {
     width: 100%;
     height: 100%;
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-canvas {
+    transform: scale(1.1) rotate(2deg);
 }
 
 .project-info {
     padding: var(--spacing-xl);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-info,
+.project-card:focus-within .project-info {
+    transform: translateY(-5px);
 }
 
 .project-category {
@@ -881,11 +954,21 @@ p {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: var(--spacing-sm);
+    transition: letter-spacing 0.3s ease;
+}
+
+.project-card:hover .project-category {
+    letter-spacing: 2px;
 }
 
 .project-title {
     font-size: var(--fs-lg);
     margin-bottom: var(--spacing-sm);
+    transition: color 0.3s ease;
+}
+
+.project-card:hover .project-title {
+    color: var(--accent);
 }
 
 .project-location {
@@ -896,7 +979,31 @@ p {
 
 .project-location i {
     margin-right: var(--spacing-xs);
+    transition: transform 0.3s ease;
 }
+
+.project-card:hover .project-location i {
+    transform: scale(1.2);
+}
+
+/* View Details button animation */
+.project-info .btn {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.project-card:hover .project-info .btn,
+.project-card:focus-within .project-info .btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+html[dir="rtl"] .project-card:hover .project-info .btn,
+html[dir="rtl"] .project-card:focus-within .project-info .btn {
+    transform: translateX(-5px);
+}
+
 
 /* =====================================================
    11. TESTIMONIALS SECTION
@@ -1944,6 +2051,112 @@ html[dir="rtl"] .blog-meta i {
     }
 
     .scroll-indicator {
+        display: none;
+    }
+}
+
+/* =====================================================
+   22. MOBILE PERFORMANCE OPTIMIZATIONS
+===================================================== */
+
+/* Enable smooth scrolling with momentum on touch devices */
+@supports (-webkit-overflow-scrolling: touch) {
+    html {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+    overscroll-behavior-y: contain;
+}
+
+/* Touch-friendly targets */
+@media (max-width: 768px) {
+
+    /* Ensure minimum touch target size of 44px */
+    .btn,
+    .nav-link,
+    .filter-btn,
+    .social-link,
+    .lang-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Disable complex transforms on mobile */
+    .service-card:hover,
+    .project-card:hover,
+    .blog-card:hover {
+        transform: none;
+    }
+
+    /* Reduce animation intensity on mobile */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.2s !important;
+    }
+
+    /* Hide 3D canvas on mobile - show gradient fallback */
+    .project-canvas {
+        display: none;
+    }
+
+    .project-3d-wrapper {
+        background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 50%, #d4af37 150%);
+        position: relative;
+    }
+
+    .project-3d-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 80px;
+        background: linear-gradient(135deg, #d4af37, #e8c547);
+        border-radius: 4px;
+        opacity: 0.8;
+    }
+
+    /* Optimize chat widget for mobile */
+    .chat-toggle {
+        width: 50px;
+        height: 50px;
+    }
+
+    .chat-widget {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+
+    html[dir="rtl"] .chat-widget {
+        right: auto;
+        left: var(--spacing-md);
+    }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .scroll-indicator,
+    .wheel {
+        animation: none;
+    }
+
+    #galaxy-canvas {
         display: none;
     }
 }

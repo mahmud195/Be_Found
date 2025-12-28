@@ -384,6 +384,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================================
 
     function initHoverAnimations() {
+        // Skip magnetic effects on touch devices
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         // Service cards hover effect
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -403,30 +406,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Button hover magnetic effect
-        document.querySelectorAll('.btn-primary').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
+        // Button hover magnetic effect (disabled on touch devices)
+        if (!isTouchDevice) {
+            document.querySelectorAll('.btn-primary').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
 
-                gsap.to(btn, {
-                    x: x * 0.2,
-                    y: y * 0.2,
-                    duration: 0.3,
-                    ease: 'power2.out'
+                    gsap.to(btn, {
+                        x: x * 0.2,
+                        y: y * 0.2,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    gsap.to(btn, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.3,
+                        ease: 'elastic.out(1, 0.5)'
+                    });
                 });
             });
-
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'elastic.out(1, 0.5)'
-                });
-            });
-        });
+        }
     }
 
     // =====================================================

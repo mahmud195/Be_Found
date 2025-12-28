@@ -19,6 +19,10 @@ let stars = [];
 let mouseX = 0, mouseY = 0;
 let currentLanguage = 'en';
 
+// Mobile detection for performance optimization
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 // =====================================================
 // 1. GALAXY BACKGROUND ANIMATION
 // Uses Three.js to create an animated starfield
@@ -30,7 +34,7 @@ function initGalaxy() {
 
     // Create Scene
     galaxyScene = new THREE.Scene();
-    
+
     // Create Camera
     galaxyCamera = new THREE.PerspectiveCamera(
         75,                                    // Field of View
@@ -51,7 +55,7 @@ function initGalaxy() {
 
     // Create Stars
     createStars();
-    
+
     // Create Nebula/Galaxy Effect
     createNebula();
 
@@ -60,14 +64,14 @@ function initGalaxy() {
 
     // Handle Window Resize
     window.addEventListener('resize', onWindowResize);
-    
+
     // Track Mouse Movement for Parallax Effect
     document.addEventListener('mousemove', onMouseMove);
 }
 
 function createStars() {
-    // CHANGE: Adjust star count and spread
-    const starCount = 3000;
+    // Reduce star count on mobile for better performance
+    const starCount = isMobile ? 500 : 3000;
     const starGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(starCount * 3);
     const colors = new Float32Array(starCount * 3);
@@ -80,12 +84,12 @@ function createStars() {
 
     for (let i = 0; i < starCount; i++) {
         const i3 = i * 3;
-        
+
         // Random position in 3D space
         positions[i3] = (Math.random() - 0.5) * 50;
         positions[i3 + 1] = (Math.random() - 0.5) * 50;
         positions[i3 + 2] = (Math.random() - 0.5) * 50;
-        
+
         // Random color (mostly white, some gold, some blue)
         const colorChoice = Math.random();
         let color;
@@ -96,11 +100,11 @@ function createStars() {
         } else {
             color = whiteColor;
         }
-        
+
         colors[i3] = color.r;
         colors[i3 + 1] = color.g;
         colors[i3 + 2] = color.b;
-        
+
         // Random size
         sizes[i] = Math.random() * 2 + 0.5;
     }
@@ -129,13 +133,13 @@ function createNebula() {
     const nebulaCount = 500;
     const nebulaGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(nebulaCount * 3);
-    
+
     for (let i = 0; i < nebulaCount; i++) {
         const i3 = i * 3;
         const radius = Math.random() * 20 + 10;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.random() * Math.PI;
-        
+
         positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
         positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
         positions[i3 + 2] = radius * Math.cos(phi);
@@ -173,10 +177,12 @@ function animateGalaxy() {
         nebula.rotation.z += 0.0001;
     }
 
-    // Parallax effect based on mouse position
-    galaxyCamera.position.x += (mouseX * 0.5 - galaxyCamera.position.x) * 0.02;
-    galaxyCamera.position.y += (-mouseY * 0.5 - galaxyCamera.position.y) * 0.02;
-    galaxyCamera.lookAt(galaxyScene.position);
+    // Parallax effect based on mouse position (disabled on mobile for performance)
+    if (!isMobile) {
+        galaxyCamera.position.x += (mouseX * 0.5 - galaxyCamera.position.x) * 0.02;
+        galaxyCamera.position.y += (-mouseY * 0.5 - galaxyCamera.position.y) * 0.02;
+        galaxyCamera.lookAt(galaxyScene.position);
+    }
 
     galaxyRenderer.render(galaxyScene, galaxyCamera);
 }
@@ -206,16 +212,16 @@ class BuildingModel {
         this.renderer = null;
         this.building = null;
         this.isHovered = false;
-        
+
         this.init();
     }
 
     init() {
         // Create Scene
         this.scene = new THREE.Scene();
-        
+
         // Create Camera
-        this.camera = new THREE.PerspectiveCamera(45, 4/3, 0.1, 100);
+        this.camera = new THREE.PerspectiveCamera(45, 4 / 3, 0.1, 100);
         this.camera.position.set(3, 2, 3);
         this.camera.lookAt(0, 0.5, 0);
 
@@ -231,7 +237,7 @@ class BuildingModel {
 
         // Add Lights
         this.addLights();
-        
+
         // Create Building based on type
         this.createBuilding();
 
@@ -261,7 +267,7 @@ class BuildingModel {
 
     createBuilding() {
         const buildingGroup = new THREE.Group();
-        
+
         // Building materials
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0x88ccff,
@@ -285,7 +291,7 @@ class BuildingModel {
         });
 
         // CHANGE: Different building types for different projects
-        switch(this.type) {
+        switch (this.type) {
             case 'tower':
                 // Modern skyscraper
                 const towerBase = new THREE.Mesh(
@@ -363,7 +369,7 @@ class BuildingModel {
                 // Pool
                 const pool = new THREE.Mesh(
                     new THREE.BoxGeometry(0.6, 0.05, 0.4),
-                    new THREE.MeshStandardMaterial({color: 0x4fc3f7})
+                    new THREE.MeshStandardMaterial({ color: 0x4fc3f7 })
                 );
                 pool.position.set(0.3, 0.03, 0.8);
                 buildingGroup.add(pool);
@@ -460,8 +466,14 @@ class BuildingModel {
 
 // Initialize all project building models
 function initProjectBuildings() {
+    // Skip 3D buildings on mobile for performance - CSS fallback handles it
+    if (isMobile) {
+        console.log('📱 Mobile detected: Using CSS fallback for project cards');
+        return;
+    }
+
     const projectCanvases = document.querySelectorAll('.project-canvas');
-    
+
     projectCanvases.forEach(canvas => {
         const modelType = canvas.dataset.model || 'tower';
         new BuildingModel(canvas, modelType);
@@ -475,11 +487,11 @@ function initProjectBuildings() {
 
 function switchLanguage(lang) {
     currentLanguage = lang;
-    
+
     // Update HTML direction and font
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    
+
     // Update all elements with data-en and data-ar attributes
     document.querySelectorAll('[data-en][data-ar]').forEach(element => {
         const text = element.getAttribute(`data-${lang}`);
@@ -510,7 +522,7 @@ function initLanguage() {
     const savedLang = localStorage.getItem('preferredLanguage');
     const browserLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
     const initialLang = savedLang || browserLang;
-    
+
     switchLanguage(initialLang);
 }
 
@@ -548,7 +560,7 @@ function initNavigation() {
             mobileToggle.classList.remove('active');
             navMenu.classList.remove('active');
             document.body.style.overflow = '';
-            
+
             // Update active state
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -557,19 +569,19 @@ function initNavigation() {
 
     // Update active link on scroll
     const sections = document.querySelectorAll('section[id]');
-    
+
     window.addEventListener('scroll', () => {
         let current = '';
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop - 150;
             const sectionHeight = section.offsetHeight;
-            
+
             if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
                 current = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href') === `#${current}`) {
@@ -598,7 +610,7 @@ function initProjectFilters() {
             // Filter projects
             projectCards.forEach(card => {
                 const category = card.dataset.category;
-                
+
                 if (filter === 'all' || filter === category) {
                     card.style.display = 'block';
                     setTimeout(() => {
@@ -627,20 +639,20 @@ function initForms() {
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             // CHANGE: Replace with your form submission logic
             // For now, just show a success message
             const formData = new FormData(contactForm);
             console.log('Contact Form Data:', Object.fromEntries(formData));
-            
+
             // Show success message
             showNotification(
-                currentLanguage === 'ar' 
-                    ? 'تم إرسال طلبك بنجاح! سنتواصل معك قريباً.' 
+                currentLanguage === 'ar'
+                    ? 'تم إرسال طلبك بنجاح! سنتواصل معك قريباً.'
                     : 'Your request has been sent successfully! We will contact you soon.',
                 'success'
             );
-            
+
             contactForm.reset();
         });
     }
@@ -650,17 +662,17 @@ function initForms() {
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const email = newsletterForm.querySelector('input[type="email"]').value;
             console.log('Newsletter subscription:', email);
-            
+
             showNotification(
                 currentLanguage === 'ar'
                     ? 'شكراً لاشتراكك في نشرتنا البريدية!'
                     : 'Thank you for subscribing to our newsletter!',
                 'success'
             );
-            
+
             newsletterForm.reset();
         });
     }
@@ -670,17 +682,17 @@ function initForms() {
     if (bookingForm) {
         bookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const formData = new FormData(bookingForm);
             console.log('Booking Data:', Object.fromEntries(formData));
-            
+
             showNotification(
                 currentLanguage === 'ar'
                     ? 'تم حجز موعدك بنجاح!'
                     : 'Your appointment has been booked successfully!',
                 'success'
             );
-            
+
             closeBookingModal();
             bookingForm.reset();
         });
@@ -717,7 +729,7 @@ function initChatWidget() {
     if (chatForm) {
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const message = chatInput.value.trim();
             if (!message) return;
 
@@ -727,7 +739,7 @@ function initChatWidget() {
 
             // Simulate bot response
             setTimeout(() => {
-                const botResponses = currentLanguage === 'ar' 
+                const botResponses = currentLanguage === 'ar'
                     ? [
                         'شكراً لتواصلك معنا! سيقوم أحد ممثلينا بالرد عليك قريباً.',
                         'نحن سعداء بمساعدتك! هل يمكنك إخبارنا المزيد عن مشروعك؟',
@@ -738,7 +750,7 @@ function initChatWidget() {
                         'We\'re happy to help! Can you tell us more about your project?',
                         'Thanks for your message. Our team is available to answer your questions.'
                     ];
-                
+
                 const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
                 addChatMessage(randomResponse, 'bot');
             }, 1000);
@@ -868,7 +880,7 @@ document.head.appendChild(notificationStyles);
 
 function initCounters() {
     const counters = document.querySelectorAll('.stat-number');
-    
+
     const options = {
         root: null,
         threshold: 0.5
@@ -908,17 +920,17 @@ function animateCounter(element, target) {
 
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const navHeight = document.getElementById('navbar').offsetHeight;
                 const targetPosition = targetElement.offsetTop - navHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -943,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initChatWidget();
     initCounters();
     initSmoothScroll();
-    
+
     console.log('🏛️ Arch Studio website initialized successfully!');
 });
 
