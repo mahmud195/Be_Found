@@ -62,10 +62,15 @@
 
         /* Logo container in intro */
         .intro-logo-wrapper {
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            max-width: 600px;
         }
 
         .intro-logo {
@@ -77,6 +82,8 @@
             opacity: 0;
             position: relative;
             z-index: 10;
+            transform: translateX(100px);
+            white-space: nowrap;
         }
 
         .intro-logo .logo-be {
@@ -584,13 +591,14 @@
                     ease: 'power2.inOut'
                 }, '+=0.3');
 
-            // Phase 5: Logo reveals
+            // Phase 5: Logo reveals - fade in from right
             const logoRevealTL = gsap.timeline();
             logoRevealTL
                 .to(introLogo, {
                     opacity: 1,
-                    duration: 0.6,
-                    ease: 'power2.out'
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power3.out'
                 })
                 .to(introLogo, {
                     scale: 1.05,
